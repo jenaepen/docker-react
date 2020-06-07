@@ -1,16 +1,14 @@
 const express = require("express")
 const path = require("path")
-const dotenv = require("dotenv")
 const redis = require("redis")
 const client = redis.createClient({
     host: "redis-server",
     port: 6379
   });
 
-dotenv.config()
 
 const app = express()
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000
 
 app.use("/build",express.static(path.join(__dirname, "build")))
 
