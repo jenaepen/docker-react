@@ -1,0 +1,17 @@
+# Use an existing docker image as a base
+FROM node:alpine
+
+# to prevent overriding existing files by stating the location of the app files
+WORKDIR /usr/app
+
+# Copy the package json file into the image
+COPY package.json .
+
+# Download and install a dependency
+RUN npm install
+
+# Copy the package json file into the image
+COPY . .
+
+# Tell the image what to do when it starts as a container
+CMD ["npm","run","build:dev"]
