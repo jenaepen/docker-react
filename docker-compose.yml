@@ -5,7 +5,6 @@ services:
   node-app:
     env_file: 
       - .env
-    restart: on-failure
     build: .
     ports:
       - "80:${PORT}"

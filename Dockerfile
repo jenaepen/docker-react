@@ -4,6 +4,9 @@ FROM node:alpine as builder
 # to prevent overriding existing files by stating the location of the app files
 WORKDIR /usr/app
 
+# adding environment variables
+ENV PORT=80
+
 # Copy the package json file into the image
 COPY package.json .
 
@@ -18,6 +21,6 @@ RUN npm run build:prod
 
 # FROM nginx
 # COPY --from=builder /usr/app /usr/share/nginx/html
+EXPOSE ${PORT}
 
 CMD ["npm", "run", "start"]
-

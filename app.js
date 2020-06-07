@@ -1,15 +1,19 @@
 const express = require("express")
 const path = require("path")
-const redis = require("redis")
-const client = redis.createClient({
-    host: "redis-server",
-    port: 6379
-  });
-
+// const redis = require("redis")
+// let client;
+// if(process.env.PORT) {
+//     client = redis.createClient({
+//     host: "redis-server",
+//     port: 6379
+//   });
+// }
+// else client = redis.createClient();
+ 
 
 const app = express()
 const PORT = process.env.PORT || 3000
-
+let visits = 0;
 app.use("/build",express.static(path.join(__dirname, "build")))
 
 app.get("/", (req,res)=>{
@@ -17,23 +21,26 @@ app.get("/", (req,res)=>{
     res.sendFile(path.join(__dirname, "index.html"))
 })
 
-client.get("visits", (err,visits)=>{
-    if(visits === null){ client.set("visits", 0)}
-})
+// client.get("visits", (err,visits)=>{
+//     if(visits === null){ client.set("visits", 0)}
+// })
 
 app.get("/visits", (req,res, next)=>{
-    client.get("visits", (err,visits)=>{
-        if(err) return next(err)
-        res.json(parseInt(visits))
-    })  
+    // client.get("visits", (err,visits)=>{
+    //     if(err) return next(err)
+    //     res.json(parseInt(visits))
+    // })  
+    res.json(parseInt(visits))
 })
 
 app.get("/visits/add", (req,res, next)=>{
-    client.get("visits", (err,visits)=>{
-        if(err) return next(err)
-        client.set("visits", parseInt(visits) +1 )
-        res.json(parseInt(visits)+1)
-    })  
+    // client.get("visits", (err,visits)=>{
+    //     if(err) return next(err)
+    //     client.set("visits", parseInt(visits) +1 )
+    //     res.json(parseInt(visits)+1)
+    // })  
+    visits += 1
+    res.json(parseInt(visits))
 })
 
 
